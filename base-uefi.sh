@@ -1,23 +1,27 @@
 #!/bin/sh
 
+CONFIG_FILE="uefi.conf"
+
+. "./$CONFIG_FILE"
+
 # setup timezone
-ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
+ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
 hwclock --systohc
 
 # localization
 sed -i '177s/.//' /etc/locale.gen
 locale-gen
-echo "LANG=en_US.UTF-8" >> /etc/locale.conf 
-echo "KEYMAP=it" >> /etc/vconsole.conf
+echo "LANG=$LOCALE" >> /etc/locale.conf 
+echo "KEYMAP=$KEYMAP" >> /etc/vconsole.conf
 
 # network configuration
-echo "arch" >> /etc/hostname
+echo "$HOSTNAME" >> /etc/hostname
 echo "127.0.0.1 localhost" >> /etc/hosts
 echo "::1       localhost" >> /etc/hosts
-echo "127.0.0.1 arch.localdomain arch" >> /etc/hosts
+echo "127.0.0.1 $HOSTNAME.localdomain $HOSTNAME" >> /etc/hosts
 
 # set root password
-echo root:password | chpasswd
+echo root:$ROOT_PASS | chpasswd
 
 # install packages
 pacman -S --noconfirm grub efibootmgr networkmanager network-manager-applet dialog wpa_supplicant reflector base-devel linux-headers dosfstools mtools xdg-user-dirs xdg-utils cups alsa-utils pulseaudio neovim firewalld
@@ -38,9 +42,9 @@ systemctl enable fstrim.timer
 systemctl enable firewalld
 
 # add new user
-useradd -m alberto
-echo alberto:password | chpasswd
-echo "alberto ALL=(ALL) ALL" >> /etc/sudoers.d/alberto
+useradd -m $USERNAME
+echo $USERNAME:$USER_PASS | chpasswd
+echo "$USERNAME ALL=(ALL) ALL" >> /etc/sudoers.d/$USERNAME
 
 # done
 echo -e "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m"
