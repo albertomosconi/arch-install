@@ -35,7 +35,7 @@ echo "127.0.0.1 $HOSTNAME.localdomain $HOSTNAME" >> /mnt/etc/hosts
 printf "$ROOT_PASS\n$ROOT_PASS" | arch-chroot /mnt passwd
 
 # install packages
-arch-chroot /mnt pacman -S --noconfirm grub efibootmgr git networkmanager network-manager-applet dialog wpa_supplicant reflector base-devel linux-headers dosfstools mtools xdg-user-dirs xdg-utils cups alsa-utils pulseaudio neovim firewalld neofetch zsh
+arch-chroot /mnt pacman -S --noconfirm grub efibootmgr git networkmanager network-manager-applet dialog wpa_supplicant reflector base-devel linux-headers dosfstools mtools xdg-user-dirs xdg-utils cups alsa-utils pulseaudio neovim firewalld
 
 # optional gpu packages
 # pacman -S --noconfirm xf86-video-amdgpu
@@ -57,15 +57,6 @@ arch-chroot /mnt useradd -m $USERNAME
 # echo $USERNAME:$USER_PASS | chpasswd
 printf "$USER_PASS\n$USER_PASS" | arch-chroot /mnt passwd $USERNAME
 echo "$USERNAME ALL=(ALL) ALL" >> /mnt/etc/sudoers.d/$USERNAME
-
-printf "XDG_DESKTOP_DIR=\"\$HOME/desk\"
-XDG_DOCUMENTS_DIR=\"\$HOME/docs\"
-XDG_DOWNLOAD_DIR=\"\$HOME/down\"
-XDG_MUSIC_DIR=\"\$HOME/msic\"
-XDG_PICTURES_DIR=\"\$HOME/pics\"
-XDG_PUBLICSHARE_DIR=\"\$HOME/pblc\"
-XDG_TEMPLATES_DIR=\"\$HOME/tmpl\"
-XDG_VIDEOS_DIR=\"\$HOME/vids\"" > /mnt/home/$USERNAME/.config/user-dirs.dirs
 
 # done
 # echo -e "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m"
