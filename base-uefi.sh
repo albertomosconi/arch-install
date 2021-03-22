@@ -60,6 +60,9 @@ echo "$USERNAME ALL=(ALL) ALL" >> /mnt/etc/sudoers.d/$USERNAME
 
 chsh -s /mnt/bin/zsh $USERNAME
 
+curl -o /mnt/home/$USERNAME/.config/aliasrc https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.config/aliasrc
+curl -o /mnt/home/$USERNAME/.config/zsh/.zshrc https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.config/zsh/.zshrc
+
 # done
 # echo -e "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m"
 umount -a
