@@ -3,6 +3,9 @@
 CONFIG_FILE="uefi.conf"
 . "./$CONFIG_FILE"
 
+printf "\n" | timedatectl set-ntp true
+printf "n\n\n\n+300M\nef00\nn\n\n\n\n\nw\ny\n" | gdisk /dev/sda
+
 mkfs.fat -F32 /dev/sda1
 mkfs.ext4 /dev/sda2
 
