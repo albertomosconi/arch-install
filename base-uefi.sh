@@ -63,8 +63,12 @@ echo "$USERNAME ALL=(ALL) ALL" >> /mnt/etc/sudoers.d/$USERNAME
 
 arch-chroot /mnt chsh -s /bin/zsh $USERNAME
 
-arch-chroot /mnt curl -o /home/$USERNAME/.config/aliasrc https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.config/aliasrc
-arch-chroot /mnt curl -o /home/$USERNAME/.config/zsh/.zshrc https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.config/zsh/.zshrc
+curl -O https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.config/aliasrc
+curl -O https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.config/zsh/.zshrc
+
+mkdir -p /mnt/home/$USERNAME/.config/zsh
+mv aliasrc /mnt/home/$USERNAME/.config/
+mv .zshrc /mnt/home/$USERNAME/.config/zsh/
 
 # done
 # echo -e "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m"
