@@ -63,10 +63,16 @@ echo "$USERNAME ALL=(ALL) ALL" >> /mnt/etc/sudoers.d/$USERNAME
 
 arch-chroot /mnt chsh -s /bin/zsh $USERNAME
 
+curl -O https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.zprofile
 curl -O https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.config/aliasrc
 curl -O https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.config/zsh/.zshrc
 
+mv .zprofile /mnt/home/$USERNAME/
+ln /mnt/home/$USERNAME/.zprofile /mnt/home/$USERNAME/.profile
+
+mkdir -p /mnt/home/$USERNAME/.local/bin
 mkdir -p /mnt/home/$USERNAME/.config/zsh
+
 mv aliasrc /mnt/home/$USERNAME/.config/
 mv .zshrc /mnt/home/$USERNAME/.config/zsh/
 
