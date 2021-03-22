@@ -58,10 +58,10 @@ arch-chroot /mnt useradd -m $USERNAME
 printf "$USER_PASS\n$USER_PASS" | arch-chroot /mnt passwd $USERNAME
 echo "$USERNAME ALL=(ALL) ALL" >> /mnt/etc/sudoers.d/$USERNAME
 
-chsh -s /mnt/bin/zsh $USERNAME
+arch-chroot /mnt chsh -s /bin/zsh $USERNAME
 
-curl -o /mnt/home/$USERNAME/.config/aliasrc https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.config/aliasrc
-curl -o /mnt/home/$USERNAME/.config/zsh/.zshrc https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.config/zsh/.zshrc
+arch-chroot /mnt curl -o /home/$USERNAME/.config/aliasrc https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.config/aliasrc
+arch-chroot /mnt curl -o /home/$USERNAME/.config/zsh/.zshrc https://raw.githubusercontent.com/albertomosconi/dotfiles/master/.config/zsh/.zshrc
 
 # done
 # echo -e "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m"
