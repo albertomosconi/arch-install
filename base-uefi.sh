@@ -53,7 +53,6 @@ arch-chroot /mnt systemctl enable NetworkManager
 arch-chroot /mnt systemctl enable cups
 arch-chroot /mnt systemctl enable reflector.timer
 arch-chroot /mnt systemctl enable fstrim.timer
-arch-chroot /mnt systemctl enable firewalld
 
 # add new user
 arch-chroot /mnt useradd -m $USERNAME
