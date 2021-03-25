@@ -38,7 +38,7 @@ echo "127.0.0.1 $HOSTNAME.localdomain $HOSTNAME" >> /mnt/etc/hosts
 printf "$ROOT_PASS\n$ROOT_PASS" | arch-chroot /mnt passwd
 
 # install packages
-arch-chroot /mnt pacman -S --noconfirm grub efibootmgr git networkmanager network-manager-applet dialog wpa_supplicant reflector base-devel linux-headers dosfstools mtools xdg-user-dirs xdg-utils cups alsa-utils pulseaudio neovim firewalld zsh
+arch-chroot /mnt pacman -S --noconfirm grub efibootmgr git networkmanager network-manager-applet dialog wpa_supplicant reflector base-devel linux-headers dosfstools mtools xdg-user-dirs xdg-utils cups alsa-utils pulseaudio neovim firewalld zsh dash
 
 # optional gpu packages
 # pacman -S --noconfirm xf86-video-amdgpu
@@ -76,9 +76,21 @@ mkdir -p /mnt/home/$USERNAME/.config/zsh
 mv aliasrc /mnt/home/$USERNAME/.config/
 mv .zshrc /mnt/home/$USERNAME/.config/zsh/
 
-# done
-# echo -e "\e[1;32mDone! Type exit, umount -a and reboot.\e[0m"
+arch-chroot /mnt ln -sfT dash /usr/bin/sh
+
+echo "[Trigger]
+Type = Package
+Operation = Install
+Operation = Upgrade
+Target = bash
+
+[Action]
+Description = Re-pointing /bin/sh symlink to dash...
+When = PostTransaction
+Exec = /usr/bin/ln -sfT dash /usr/bin/sh
+Depends = dash" > /mnt/usr/share/libalpm/hooks/bash-update.hook
+
 umount -a
-echo "Rebooting in 5..4..3..2..1"
+echo -e "\e[1;32mRebooting in 5..4..3..2..1\e[0m"
 sleep 5
 reboot
