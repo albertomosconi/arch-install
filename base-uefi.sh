@@ -75,6 +75,8 @@ mkdir -p /mnt/home/$USERNAME/.config/zsh
 mv aliasrc /mnt/home/$USERNAME/.config/
 mv .zshrc /mnt/home/$USERNAME/.config/zsh/
 
+arch-chroot /mnt rm /home/$USERNAME/.bashrc /home/$USERNAME/.bash_logout /home/$USERNAME/.bash_profile
+
 arch-chroot /mnt chown -R $USERNAME:$USERNAME /home/$USERNAME/
 
 arch-chroot /mnt ln -sfT dash /usr/bin/sh
