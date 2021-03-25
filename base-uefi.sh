@@ -38,7 +38,7 @@ echo "127.0.0.1 $HOSTNAME.localdomain $HOSTNAME" >> /mnt/etc/hosts
 printf "$ROOT_PASS\n$ROOT_PASS" | arch-chroot /mnt passwd
 
 # install packages
-arch-chroot /mnt pacman -S --noconfirm grub efibootmgr git networkmanager network-manager-applet dialog wpa_supplicant reflector base-devel linux-headers dosfstools mtools xdg-user-dirs xdg-utils cups alsa-utils pulseaudio neovim firewalld zsh dash
+arch-chroot /mnt pacman -S --noconfirm grub efibootmgr git networkmanager network-manager-applet dialog wpa_supplicant reflector base-devel linux-headers dosfstools mtools xdg-user-dirs xdg-utils cups alsa-utils pulseaudio neovim zsh dash neofetch
 
 # optional gpu packages
 # pacman -S --noconfirm xf86-video-amdgpu
