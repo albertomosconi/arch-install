@@ -4,14 +4,14 @@ CONFIG_FILE="uefi.conf"
 . "./$CONFIG_FILE"
 
 printf "\n" | timedatectl set-ntp true
-printf "n\n\n\n+300M\nef00\nn\n\n\n\n\nw\ny\n" | gdisk /dev/sda
+printf "n\n\n\n+300M\nef00\nn\n\n\n\n\nw\ny\n" | gdisk $DEVICE
 
-mkfs.fat -F32 /dev/sda1
-mkfs.ext4 /dev/sda2
+mkfs.fat -F32 $DEVICE\1
+mkfs.ext4 $DEVICE\2
 
-mount /dev/sda2 /mnt
+mount $DEVICE\2 /mnt
 mkdir -p /mnt/boot/efi
-mount /dev/sda1 /mnt/boot/efi
+mount $DEVICE\1 /mnt/boot/efi
 
 pacstrap /mnt base linux-zen linux-firmware
 
