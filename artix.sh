@@ -38,7 +38,7 @@ echo "127.0.0.1 $HOSTNAME.localdomain $HOSTNAME" >> /mnt/etc/hosts
 printf "$ROOT_PASS\n$ROOT_PASS" | artix-chroot /mnt passwd
 
 # install packages
-artix-chroot /mnt pacman -S --noconfirm grub efibootmgr git networkmanager networkmanager-runit network-manager-applet dialog wpa_supplicant reflector base-devel linux-headers dosfstools mtools xdg-user-dirs xdg-utils cups alsa-utils pulseaudio neovim zsh dash neofetch
+artix-chroot /mnt pacman -S --noconfirm grub efibootmgr git networkmanager networkmanager-runit network-manager-applet dialog wpa_supplicant reflector base-devel linux-headers dosfstools mtools xdg-user-dirs xdg-utils cups cups-runit alsa-utils pulseaudio neovim zsh dash neofetch
 
 # optional gpu packages
 # pacman -S --noconfirm xf86-video-amdgpu
@@ -49,6 +49,7 @@ artix-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/efi --b
 artix-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 artix-chroot /mnt ln -s /etc/runit/sv/NetworkManager /etc/runit/runsvdir/default
+artix-chroot /mnt ln -s /etc/runit/sv/cupsd /etc/runit/runsvdir/default
 
 # add new user
 artix-chroot /mnt useradd -m $USERNAME
@@ -88,6 +89,9 @@ Description = Re-pointing /bin/sh symlink to dash...
 When = PostTransaction
 Exec = /usr/bin/ln -sfT dash /usr/bin/sh
 Depends = dash" > /mnt/usr/share/libalpm/hooks/bash-update.hook
+
+artix-chroot /mnt pacman -S --noconfirm xorg gnome sddm-runit
+artix-chroot /mnt ln -s /etc/runit/sv/sddm /etc/runit/runsvdir/default
 
 umount -a
 echo -e "\e[1;32mRebooting in 5..4..3..2..1\e[0m"
