@@ -4,14 +4,25 @@ CONFIG_FILE="uefi.conf"
 . "./$CONFIG_FILE"
 
 printf "\n" | timedatectl set-ntp true
+
+BOOT_PARTITION=""
+ROOT_PARTITION=""
+if [ -n "$(echo $DEVICE | grep "^/dev/[a-z]d[a-z]")" ]; then
+    BOOT_PARTITION="${DEVICE}1"
+    ROOT_PARTITION="${DEVICE}2"
+elif [ -n "$(echo $DEVICE | grep "^dev/nvme")" ]; then
+    BOOT_PARTITION="${DEVICE}p1"
+    ROOT_PARTITION="${DEVICE}p2"
+fi
+
 printf "n\n\n\n+300M\nef00\nn\n\n\n\n\nw\ny\n" | gdisk $DEVICE
 
-mkfs.fat -F32 $DEVICE\1
-mkfs.ext4 $DEVICE\2
+mkfs.fat -F32 $BOOT_PARTITION
+mkfs.ext4 $ROOT_PARTITION
 
-mount $DEVICE\2 /mnt
+mount $ROOT_PARTITION /mnt
 mkdir -p /mnt/boot/efi
-mount $DEVICE\1 /mnt/boot/efi
+mount $BOOT_PARTITION /mnt/boot/efi
 
 pacstrap /mnt base linux-zen linux-firmware
 
