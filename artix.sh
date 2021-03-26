@@ -3,8 +3,9 @@
 CONFIG_FILE="uefi.conf"
 . "./$CONFIG_FILE"
 
-printf "\n" | timedatectl set-ntp true
-printf "n\n\n\n+300M\nef00\nn\n\n\n\n\nw\ny\n" | gdisk $DEVICE
+# printf "\n" | timedatectl set-ntp true
+# printf "n\n\n\n+300M\nef00\nn\n\n\n\n\nw\ny\n" | gdisk $DEVICE
+printf "n\np\n\n\n+300M\nt\nef\nn\np\n\n\n\nw\n" | fdisk $DEVICE
 
 mkfs.fat -F32 $DEVICE\1
 mkfs.ext4 $DEVICE\2
